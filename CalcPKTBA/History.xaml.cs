@@ -12,7 +12,7 @@ namespace CalcPKTBA
     public partial class History : Window
     {
         public string calculationsHistory;
-        private readonly string path = @"C:\\calcHistory.txt";
+        private readonly string path = "C:\\calcHistory.txt";
 
         public History()
         {
@@ -61,22 +61,27 @@ namespace CalcPKTBA
 
         private void Button_Click_Clear(object sender, RoutedEventArgs e)
         {
-            try
+            if (File.Exists(path))
             {
-                StreamWriter sw = new StreamWriter(path, false, Encoding.UTF8); // Логика записи в файл: записывается все что в этом окне
-                sw.Write("");
-                sw.Close();
-
+                File.Delete(path);
                 historyBlock.Text = string.Empty;
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Ошибка: " + ex.Message);
-            }
-            finally
-            {
-                Console.WriteLine("Выполнение блока finally.");
-            }
+            //try
+            //{
+            //    StreamWriter sw = new StreamWriter(path, false, Encoding.UTF8); // Логика записи в файл: записывается все что в этом окне
+            //    sw.Write("");
+            //    sw.Close();
+            //
+            //    historyBlock.Text = string.Empty;
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine("Ошибка: " + ex.Message);
+            //}
+            //finally
+            //{
+            //    Console.WriteLine("Выполнение блока finally.");
+            //}
         }
 
         private void History_Closing(object sender, CancelEventArgs e)

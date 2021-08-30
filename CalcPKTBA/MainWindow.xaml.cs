@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 namespace CalcPKTBA
@@ -32,6 +31,7 @@ namespace CalcPKTBA
 
             if(textBlock.Text.Contains("="))
             {
+                leftop = "";
                 textBlock.Text = "";
             }
 
@@ -48,7 +48,7 @@ namespace CalcPKTBA
             }
 
             // Пытаемся преобразовать в число
-            bool result = int.TryParse(s, out _);
+            bool result = long.TryParse(s, out _);
 
             // Если текст - это число
             if (result)
@@ -104,11 +104,16 @@ namespace CalcPKTBA
         // Обновляем значение правого операнда
         private void Update_RightOp()
         {
-            int num1, num2;
+            long num1, num2;
 
-            if (leftop != string.Empty)
+            if (leftop != string.Empty && long.TryParse(leftop, out _))
             {
-                num1 = int.Parse(leftop);
+                if (!long.TryParse(leftop, out _))
+                {
+                    leftop = "Большое число";
+                    return;
+                }
+                num1 = long.Parse(leftop);
             }
             else
             {
@@ -117,7 +122,12 @@ namespace CalcPKTBA
 
             if (rightop != string.Empty)
             {
-                num2 = int.Parse(rightop);
+                if (!long.TryParse(rightop, out _))
+                {
+                    rightop = "Большое число";
+                    return;
+                }
+                num2 = long.Parse(rightop);
             }
             else
             {
